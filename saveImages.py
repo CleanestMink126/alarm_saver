@@ -1,9 +1,10 @@
 import cv2
 import numpy
+import datetime
 import time
 
 def show_cam():
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
 
     while(True):
         # Capture frame-by-frame
@@ -25,5 +26,31 @@ def show_cam():
     cap.release()
     cv2.destroyAllWindows()
 
+def save_images():
+    cap = cv2.VideoCapture(0)
+    capture = False
+
+    last = datetime.datetime.now()
+    while(True):
+        # Capture frame-by-frame
+        current = datetime.datetime.now()
+        if 3 < current.hour < 7:
+            path = './../Asleep/'
+        elif 12 < current.hour < 23:
+            path = './../Awake/'
+        else:
+            time.sleep(5)
+            continue
+
+        if capture:
+            capture = False
+            ret, frame = cap.read()
+            cv2.imwrite(path + str(time.time())+ '.jpg', frame)
+        else:
+            diff = current - last
+            if diff.days != 0 or diff.seconds > 5:
+                capture = True
+                last = current
+
 if __name__ == '__main__':
-    show_cam()
+    save_images()
