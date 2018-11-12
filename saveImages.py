@@ -13,9 +13,11 @@ def show_cam():
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         # Display the resulting frame
-        cv2.imshow('frame',gray)
+        # cv2.imshow('frame',gray)
+        cv2.imwrite('./test.jpg', gray)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+        exit()
 
     # When everything done, release the capture
     cap.release()
